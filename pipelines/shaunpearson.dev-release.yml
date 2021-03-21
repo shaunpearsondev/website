@@ -37,7 +37,7 @@ steps:
     displayName: 'terraform plan'
     inputs:
       command: plan
-      publishPlanResults: 'website_plan'
+      #publishPlanResults: 'website_plan'
       commandOptions: '-out=$(System.DefaultWorkingDirectory)/terraform.tfplan'
       workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
       environmentServiceName: 'shaunpearson.dev'
