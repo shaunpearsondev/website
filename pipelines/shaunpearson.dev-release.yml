@@ -19,7 +19,7 @@ steps:
         terraformVersion: 0.14.8
     
   - task: TerraformCLI@0
-    displayName: 'terraform init'
+    displayName: 'terraform init'    
     inputs:
         command: init
         backendType: azurerm
@@ -31,7 +31,7 @@ steps:
         backendAzureRmStorageAccountSku: 'Standard_LRS'
         backendAzureRmContainerName: 'shaunpearsonstate'
         backendAzureRmKey: shaunpearsondev.tfstate
-        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastucture'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
 
   - task: TerraformCLI@0
     displayName: 'terraform plan'
@@ -39,7 +39,7 @@ steps:
       command: plan
       publishPlanResults: 'website_plan'
       commandOptions: '-out=$(System.DefaultWorkingDirectory)/terraform.tfplan'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastucture'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
   
   - task: TerraformCLI@0
     displayName: 'terraform show'
