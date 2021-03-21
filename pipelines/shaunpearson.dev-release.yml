@@ -25,12 +25,8 @@ steps:
       backendType: azurerm
       backendServiceArm: 'shaunpearson.dev'
       ensureBackend: true
-      backendAzureRmResourceGroupName: 'shaunpearsonstate'
       backendAzureRmResourceGroupLocation: 'eastus'
-      backendAzureRmStorageAccountName: 'shaunpearsonstate'
       backendAzureRmStorageAccountSku: 'Standard_LRS'
-      backendAzureRmContainerName: 'shaunpearsonstate'
-      backendAzureRmKey: shaunpearsondev.tfstate
       workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
 
   - task: TerraformCLI@0
