@@ -1,28 +1,28 @@
 trigger:
   - master
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 variables:
-  websiteWorkingDirectory: "$(System.DefaultWorkingDirectory)/shaun-pearson.dev"
+  websiteWorkingDirectory: '$(System.DefaultWorkingDirectory)/shaun-pearson.dev'
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "14.x"
-    displayName: "Install Node.js"
+      versionSpec: '14.x'
+    displayName: 'Install Node.js'
   - script: |
       npm install -g gatsby-cli
-    displayName: "Install gatsby-cli"
+    displayName: 'Install gatsby-cli'
   - script: |
       npm install
     workingDirectory: $(websiteWorkingDirectory)
-    displayName: "Install dependencies"
+    displayName: 'Install dependencies'
   - script: |
-     npm run-script build
+      npm run-script build
     workingDirectory: $(websiteWorkingDirectory)
-    displayName: "Gatsby build"
-  - publish: "$(websiteWorkingDirectory)/public"
+    displayName: 'Gatsby build'
+  - publish: '$(websiteWorkingDirectory)/public'
     artifact: website
     displayName: Publish Website
-  - publish: "$(System.DefaultWorkingDirectory)/infrastructure"
+  - publish: '$(System.DefaultWorkingDirectory)/infrastructure'
     artifact: infrastructure
     displayName: Publish infrastructure

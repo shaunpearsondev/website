@@ -4,34 +4,34 @@ trigger: none
 # Set up build pipeline to trigger release on completion
 resources:
   pipelines:
-  - pipeline: shaunpearsonDevBuild
-    source: shaun-pearson.dev-build
-    trigger:
-      branches:
-      - main
+    - pipeline: shaunpearsonDevBuild
+      source: shaun-pearson.dev-build
+      trigger:
+        branches:
+          - main
 
 steps:
   - download: shaunpearsonDevBuild
-  
+
   - task: TerraformInstaller@0
     displayName: install terraform
     inputs:
-        terraformVersion: 0.14.8
-    
+      terraformVersion: 0.14.8
+
   - task: TerraformCLI@0
-    displayName: 'terraform init'    
+    displayName: 'terraform init'
     inputs:
-        command: init
-        backendType: azurerm
-        backendServiceArm: 'shaunpearson.dev'
-        ensureBackend: true
-        backendAzureRmResourceGroupName: 'shaunpearsonstate'
-        backendAzureRmResourceGroupLocation: 'eastus'
-        backendAzureRmStorageAccountName: 'shaunpearsonstate'
-        backendAzureRmStorageAccountSku: 'Standard_LRS'
-        backendAzureRmContainerName: 'shaunpearsonstate'
-        backendAzureRmKey: shaunpearsondev.tfstate
-        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      command: init
+      backendType: azurerm
+      backendServiceArm: 'shaunpearson.dev'
+      ensureBackend: true
+      backendAzureRmResourceGroupName: 'shaunpearsonstate'
+      backendAzureRmResourceGroupLocation: 'eastus'
+      backendAzureRmStorageAccountName: 'shaunpearsonstate'
+      backendAzureRmStorageAccountSku: 'Standard_LRS'
+      backendAzureRmContainerName: 'shaunpearsonstate'
+      backendAzureRmKey: shaunpearsondev.tfstate
+      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
 
   - task: TerraformCLI@0
     displayName: 'terraform plan'
@@ -40,7 +40,8 @@ steps:
       publishPlanResults: 'website_plan'
       commandOptions: '-out=$(System.DefaultWorkingDirectory)/terraform.tfplan'
       workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
-  
+      environmentServiceName: 'shaunpearson.dev'
+
   - task: TerraformCLI@0
     displayName: 'terraform show'
     inputs:
@@ -53,4 +54,4 @@ steps:
     inputs:
       command: apply
       commandOptions: '$(System.DefaultWorkingDirectory)/terraform.tfplan'
-
+      environmentServiceName: 'shaunpearson.dev'
