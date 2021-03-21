@@ -1,1 +1,34 @@
-# TODO
+# Disable triggering from code updates to repo
+trigger: none
+
+# Set up build pipeline to trigger release on completion
+resources:
+  pipelines:
+  - pipeline: shaunpearsonDevBuild
+    source: shaun-pearson.dev-build
+    trigger:
+      branches:
+      - main
+
+steps:
+  - download: shaunpearsonDevBuild
+  
+  - task: TerraformInstaller@0
+    displayName: install terraform
+    inputs:
+        terraformVersion: 0.14.8
+    
+  - task: TerraformCLI@0
+    displayName: 'terraform init'
+    inputs:
+        command: init
+        backendType: azurerm
+        backendServiceArm: 'shaunpearson.dev'
+        ensureBackend: true
+        backendAzureRmResourceGroupName: 'shaunpearsonstate'
+        backendAzureRmResourceGroupLocation: 'eastus'
+        backendAzureRmStorageAccountName: 'shaunpearsonstate'
+        backendAzureRmStorageAccountSku: 'Standard_LRS'
+        backendAzureRmContainerName: 'shaunpearsonstate'
+        backendAzureRmKey: shaunpearsondev.tfstate
+
