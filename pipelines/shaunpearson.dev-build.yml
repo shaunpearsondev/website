@@ -2,32 +2,23 @@ trigger:
   - master
 pool:
   vmImage: "ubuntu-latest"
+variables:
+  workingDirectory: "$(System.DefaultWorkingDirectory)/shaun-pearson.dev"
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: "10.x"
+      versionSpec: "14.x"
     displayName: "Install Node.js"
   - script: |
       npm install -g gatsby-cli
     displayName: "Install gatsby-cli"
   - script: |
       npm install
+    workingDirectory: $(workingDirectory)
     displayName: "Install dependencies"
   - script: |
       npm build
+    workingDirectory: $(workingDirectory)
     displayName: "Gatsby build"
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: "public"
-      contents: "**"
-      targetFolder: "$(Build.ArtifactStagingDirectory)"
-      cleanTargetFolder: true
-    displayName: "Copy built site"
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-      ArtifactName: "drop"
-      publishLocation: "Container"
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    displayName: "Publish Build Artifacts"
+  - publish: "$(workingDirectory)/public"
+    artifact: website
