@@ -4,14 +4,16 @@ trigger: none
 # Set up build pipeline to trigger release on completion
 resources:
   pipelines:
-    - pipeline: shaunpearsonDevBuild
+    - pipeline: shaunpearsondev
       source: shaun-pearson.dev-build
       trigger:
         branches:
           - main
 
 steps:
-  - download: shaunpearsonDevBuild
+  - checkout: none
+
+  - download: shaunpearsondev
 
   - task: TerraformInstaller@0
     displayName: install terraform
@@ -31,7 +33,7 @@ steps:
       backendAzureRmStorageAccountSku: 'Standard_LRS'
       backendAzureRmContainerName: 'shaunpearsonstate'
       backendAzureRmKey: shaunpearsondev.tfstate
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
 
   - task: TerraformCLI@0
     displayName: 'terraform plan'
@@ -39,15 +41,16 @@ steps:
       command: plan
       publishPlanResults: 'website_plan'
       commandOptions: '-out=terraform.tfplan'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
       environmentServiceName: 'shaunpearson.dev'
 
   - task: TerraformCLI@0
     displayName: 'terraform show'
+    condition: and(succeeded(), eq(variables['TERRAFORM_PLAN_HAS_CHANGES'], 'true'))
     inputs:
       command: show
       inputTargetPlanOrStateFilePath: 'terraform.tfplan'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
 
   - task: TerraformCLI@0
     displayName: 'terraform apply'
@@ -56,13 +59,13 @@ steps:
       command: apply
       commandOptions: 'terraform.tfplan'
       environmentServiceName: 'shaunpearson.dev'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
 
   - task: TerraformCLI@0
     displayName: 'terraform output'
     inputs:
       command: output
-      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+      workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
 
   - task: AzureCLI@1
     displayName: Az File Copy to Storage
@@ -73,4 +76,4 @@ steps:
         az storage blob upload-batch \
           --destination \$web \
           --account-name "$(TF_OUT_STATIC_STORAGE_NAME)" \
-          --source "$(System.DefaultWorkingDirectory)/website"
+          --source "$(PIPELINE.WORKSPACE)/shaunpearsondev/website"
