@@ -37,20 +37,21 @@ steps:
     displayName: 'terraform plan'
     inputs:
       command: plan
-      #publishPlanResults: 'website_plan'
+      publishPlanResults: 'website_plan'
       commandOptions: '-out=$(System.DefaultWorkingDirectory)/terraform.tfplan'
       workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
       environmentServiceName: 'shaunpearson.dev'
 
-  - task: TerraformCLI@0
-    displayName: 'terraform show'
-    inputs:
-      command: show
-      inputTargetPlanOrStateFilePath: '$(System.DefaultWorkingDirectory)/terraform.tfplan'
+  # - task: TerraformCLI@0
+  #   displayName: 'terraform show'
+  #   inputs:
+  #     command: show
+  #     inputTargetPlanOrStateFilePath: '$(System.DefaultWorkingDirectory)/terraform.tfplan'
 
   - task: TerraformCLI@0
     displayName: 'terraform apply'
-    condition: and(succeeded(), eq(variables['TERRAFORM_PLAN_HAS_CHANGES'], 'true'), eq(variables['TERRAFORM_PLAN_HAS_DESTROY_CHANGES'], 'false'))
+    condition: and(succeeded(), eq(variables['TERRAFORM_PLAN_HAS_CHANGES'], 'true'))
+    # condition: and(succeeded(), eq(variables['TERRAFORM_PLAN_HAS_CHANGES'], 'true'), eq(variables['TERRAFORM_PLAN_HAS_DESTROY_CHANGES'], 'false'))
     inputs:
       command: apply
       commandOptions: '$(System.DefaultWorkingDirectory)/terraform.tfplan'
