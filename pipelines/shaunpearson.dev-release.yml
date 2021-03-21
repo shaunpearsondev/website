@@ -27,6 +27,7 @@ steps:
       ensureBackend: true
       backendAzureRmResourceGroupLocation: 'eastus'
       backendAzureRmStorageAccountSku: 'Standard_LRS'
+      backendAzureRmStorageAccountName: 'shaunpearsonstate'
       workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
 
   - task: TerraformCLI@0
