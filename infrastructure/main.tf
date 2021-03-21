@@ -15,7 +15,7 @@ resource "azurerm_storage_account" "static_storage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
   enable_https_traffic_only = true 
-  min_tls_version = "1.2"  
+  min_tls_version = "TLS1_2"  
 
   static_website {
     index_document = "index.html"
