@@ -31,6 +31,7 @@ steps:
         backendAzureRmStorageAccountSku: 'Standard_LRS'
         backendAzureRmContainerName: 'shaunpearsonstate'
         backendAzureRmKey: shaunpearsondev.tfstate
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastucture'
 
   - task: TerraformCLI@0
     displayName: 'terraform plan'
@@ -38,6 +39,7 @@ steps:
       command: plan
       publishPlanResults: 'website_plan'
       commandOptions: '-out=$(System.DefaultWorkingDirectory)/terraform.tfplan'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/infrastucture'
   
   - task: TerraformCLI@0
     displayName: 'terraform show'
