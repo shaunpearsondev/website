@@ -26,3 +26,7 @@ resource "azurerm_storage_account" "static_storage" {
     index_document = "index.html"
   }
 }
+
+output "static_storage_name" {
+  value = azurerm_storage_account.static_storage.name
+}
