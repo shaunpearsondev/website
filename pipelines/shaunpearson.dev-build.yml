@@ -17,7 +17,7 @@ steps:
     workingDirectory: $(workingDirectory)
     displayName: "Install dependencies"
   - script: |
-      npm build
+     npm run-script build
     workingDirectory: $(workingDirectory)
     displayName: "Gatsby build"
   - publish: "$(workingDirectory)/public"
