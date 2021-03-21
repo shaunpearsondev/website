@@ -1,5 +1,12 @@
 trigger:
-  - main
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - pipelines
+    include:
+      - pipelines/shaunpearson.dev-build
 
 pool:
   vmImage: 'ubuntu-latest'
