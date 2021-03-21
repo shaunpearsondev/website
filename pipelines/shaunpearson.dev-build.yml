@@ -5,8 +5,6 @@ trigger:
   paths:
     exclude:
       - pipelines
-    include:
-      - pipelines/shaunpearson.dev-build
 
 pool:
   vmImage: 'ubuntu-latest'
