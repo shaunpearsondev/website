@@ -1,15 +1,15 @@
 require(`dotenv`).config({
   path: `.env`,
-});
+})
 
-const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE;
+const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
 
 module.exports = {
   siteMetadata: {
     // You can overwrite values here that are used for the SEO component
     // Of course you can also add new values here to query them like usual
     // See all options: https://github.com/LekoArts/gatsby-themes/blob/master/themes/gatsby-theme-cara/gatsby-config.js
-    siteTitleAlt: `Gatsby Starter Portfolio`,
+    siteTitleAlt: `shaunpearson.dev`,
   },
   plugins: [
     {
@@ -18,17 +18,11 @@ module.exports = {
       options: {},
     },
     {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: process.env.GOOGLE_ANALYTICS_ID,
-      },
-    },
-    {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Cara - @lekoarts/gatsby-theme-cara`,
-        short_name: `Cara`,
-        description: `Playful and Colorful One-Page portfolio featuring Parallax effects and animations`,
+        name: `Shaun Pearson`,
+        short_name: `Shaun`,
+        description: `Company Website`,
         start_url: `/`,
         background_color: `#141821`,
         theme_color: `#f6ad55`,
@@ -59,4 +53,4 @@ module.exports = {
       },
     },
   ].filter(Boolean),
-};
+}
