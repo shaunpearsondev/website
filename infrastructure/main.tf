@@ -25,6 +25,11 @@ resource "azurerm_storage_account" "static_storage" {
   static_website {
     index_document = "index.html"
   }
+
+  custom_domain {
+    name          = "www.shaunpearson.dev"
+    use_subdomain = true
+  }
 }
 
 data "cloudflare_zones" "all" {
@@ -32,12 +37,34 @@ data "cloudflare_zones" "all" {
 
   }
 }
-resource "cloudflare_record" "root" {
+
+resource "cloudflare_record" "verify_www" {
   zone_id = data.cloudflare_zones.all.zones[0].id
-  name    = "@"
+  name    = "asverify.www"
+  value   = "asverify.${azurerm_storage_account.static_storage.primary_blob_host}"
+  type    = "CNAME"
+  proxied = false
+}
+
+resource "cloudflare_record" "www" {
+  zone_id = data.cloudflare_zones.all.zones[0].id
+  name    = "www"
   value   = azurerm_storage_account.static_storage.primary_web_host
   type    = "CNAME"
   proxied = true
+}
+
+resource "cloudflare_page_rule" "redirect" {
+  zone_id  = data.cloudflare_zones.all.zones[0].id
+  target   = "*${data.cloudflare_zones.all.zones[0].name}/*"
+  priority = 1
+
+  actions {
+    forwarding_url {
+      status_code = 301
+      url         = "https://${cloudflare_record.www.hostname}"
+    }
+  }
 }
 
 output "static_storage_name" {
