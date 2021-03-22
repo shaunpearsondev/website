@@ -27,6 +27,19 @@ resource "azurerm_storage_account" "static_storage" {
   }
 }
 
+data "cloudflare_zones" "all" {
+  filter {
+
+  }
+}
+resource "cloudflare_record" "root" {
+  zone_id = data.cloudflare_zones.all.zones[0].id
+  name    = "@"
+  value   = azurerm_storage_account.static_storage.primary_web_host
+  type    = "CNAME"
+  proxied = true
+}
+
 output "static_storage_name" {
   value = azurerm_storage_account.static_storage.name
 }

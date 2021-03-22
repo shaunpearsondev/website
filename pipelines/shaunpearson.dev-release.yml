@@ -10,6 +10,9 @@ resources:
         branches:
           - main
 
+variables:
+  - group: shaunpearson.dev
+
 steps:
   - checkout: none
 
@@ -40,7 +43,7 @@ steps:
     inputs:
       command: plan
       publishPlanResults: 'website_plan'
-      commandOptions: '-out=terraform.tfplan'
+      commandOptions: '-out=terraform.tfplan -var="cloudflare_token=$(CloudflareToken)"'
       workingDirectory: '$(PIPELINE.WORKSPACE)/shaunpearsondev/infrastructure'
       environmentServiceName: 'shaunpearson.dev'
 
