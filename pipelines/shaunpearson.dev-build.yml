@@ -7,7 +7,7 @@ trigger:
       - pipelines
 
 pool: default
-S
+
 variables:
   websiteWorkingDirectory: '$(System.DefaultWorkingDirectory)/shaun-pearson.dev'
 steps:
