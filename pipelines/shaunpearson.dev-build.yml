@@ -6,8 +6,8 @@ trigger:
     exclude:
       - pipelines
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: default
+S
 variables:
   websiteWorkingDirectory: '$(System.DefaultWorkingDirectory)/shaun-pearson.dev'
 steps:
