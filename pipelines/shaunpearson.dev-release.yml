@@ -1,5 +1,6 @@
 # Disable triggering from code updates to repo
 trigger: none
+pool: default
 
 # Set up build pipeline to trigger release on completion
 resources:
