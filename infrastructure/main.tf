@@ -26,7 +26,10 @@ resource "azurerm_storage_account" "static_storage" {
     index_document = "index.html"
   }
 
-
+  custom_domain {
+    name          = "www.shaunpearson.dev"
+    use_subdomain = true
+  }
 }
 
 data "cloudflare_zones" "all" {
