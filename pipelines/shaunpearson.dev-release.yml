@@ -77,7 +77,4 @@ steps:
       azureSubscription: 'shaunpearson.dev'
       scriptLocation: inlineScript
       inlineScript: |
-        az storage blob upload-batch \
-          --destination \$web \
-          --account-name "$(TF_OUT_STATIC_STORAGE_NAME)" \
-          --source "$(PIPELINE.WORKSPACE)/shaunpearsondev/website"
+        az storage blob upload-batch --destination \$web --account-name "$(TF_OUT_STATIC_STORAGE_NAME)" --source "$(PIPELINE.WORKSPACE)/shaunpearsondev/website"
