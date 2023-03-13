@@ -2,8 +2,6 @@ require(`dotenv`).config({
   path: `.env`,
 })
 
-const shouldAnalyseBundle = process.env.ANALYSE_BUNDLE
-
 module.exports = {
   siteMetadata: {
     // You can overwrite values here that are used for the SEO component
@@ -24,7 +22,7 @@ module.exports = {
         short_name: `Shaun`,
         description: `Company Website`,
         start_url: `/`,
-        background_color: `#141821`,
+        background_color: `#606161`,
         theme_color: `#f6ad55`,
         display: `standalone`,
         icons: [
@@ -39,17 +37,6 @@ module.exports = {
             type: `image/png`,
           },
         ],
-      },
-    },
-    `gatsby-plugin-offline`,
-    `gatsby-plugin-gatsby-cloud`,
-    `gatsby-plugin-netlify`,
-    shouldAnalyseBundle && {
-      resolve: `gatsby-plugin-webpack-bundle-analyser-v2`,
-      options: {
-        analyzerMode: `static`,
-        reportFilename: `_bundle.html`,
-        openAnalyzer: false,
       },
     },
   ].filter(Boolean),

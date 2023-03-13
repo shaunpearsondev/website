@@ -1,0 +1,9 @@
+{
+    "name": "Ubuntu",
+    "dockerFile": "Dockerfile",
+    "workspaceFolder": "/workspace",
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    "forwardPorts": [
+        8000
+    ]
+}
